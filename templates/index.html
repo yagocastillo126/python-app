@@ -5,26 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Conversor de Divisas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        /* Paleta en variables CSS: se cambia el tema tocando solo aquí */
+        :root {
+            --color-primario: #0f766e;
+            --color-secundario: #14b8a6;
+            --color-fondo-1: #0f172a;
+            --color-fondo-2: #134e4a;
+            --color-texto: #1e293b;
+        }
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--color-fondo-1), var(--color-fondo-2));
+            color: var(--color-texto);
         }
         .converter-card {
             border-radius: 20px;
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
+            width: 100%;
+            max-width: 420px;          /* en vez del width fijo de 400px */
         }
-        .result-box {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #198754;
+        .converter-card h2 { font-weight: 600; color: var(--color-primario); }
+        .btn-primary { background-color: var(--color-primario); border-color: var(--color-primario); }
+        .btn-primary:hover { background-color: var(--color-secundario); border-color: var(--color-secundario); }
+        .result-box { font-size: 1.5rem; font-weight: 600; color: var(--color-primario); }
+        /* Responsive: en móvil la tarjeta ocupa todo el ancho y se reduce el texto */
+        @media (max-width: 576px) {
+            .converter-card { border-radius: 12px; padding: 1.25rem !important; }
+            .converter-card h2 { font-size: 1.5rem; }
+            .result-box { font-size: 1.25rem; }
         }
     </style>
 </head>
 
-<body class="d-flex justify-content-center align-items-center vh-100">
+<body class="d-flex justify-content-center align-items-center min-vh-100 p-3">
 
-    <div class="card shadow-lg p-4 converter-card" style="width: 400px;">
+    <div class="card shadow-lg p-4 converter-card">
         <h2 class="text-center mb-4">💱 Conversor de Divisas</h2>
 
         <form method="post">
@@ -35,7 +52,7 @@
                        placeholder="Introduce cantidad" required>
             </div>
 
-            <div class="row mb-3">
+            <div class="row g-2 mb-3 align-items-center">
                 <div class="col">
                     <select name="from_currency" class="form-select">
                         <option value="EUR">EUR €</option>
@@ -43,7 +60,7 @@
                         <option value="GBP">GBP £</option>
                     </select>
                 </div>
-                <div class="col text-center align-self-center">
+                <div class="col-auto text-center">
                     →
                 </div>
                 <div class="col">
@@ -65,6 +82,12 @@
         {% if result is not none %}
             <div class="mt-4 text-center result-box">
                 {{ result }}
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="alert alert-danger mt-4 mb-0 text-center">
+                {{ error }}
             </div>
         {% endif %}
     </div>
